@@ -1,6 +1,6 @@
 # T-SCOP Secure Vault
 
-T-SCOP Secure Vault is the company password manager for **T-SCOP** (`t-scop.com`). The production site is designed to run at `https://sec.adviio.com` on internal port `11000`.
+T-SCOP Secure Vault is the company password manager for **T-SCOP** (`t-scop.com`). The production site is designed to run at `https://team.adviio.com` on internal port `11000`.
 
 The project uses one Node.js application for the backend and production frontend:
 
@@ -186,7 +186,7 @@ Environment variable behavior:
 | --- | --- |
 | `NODE_ENV` | Use `development` locally and `production` on the hosted server. |
 | `PORT` | Express port. This project uses `11000`. |
-| `APP_ORIGIN` | Exact public application origin. Production must use `https://sec.adviio.com`. |
+| `APP_ORIGIN` | Exact public application origin. Production must use `https://team.adviio.com`. |
 | `IT_TOOLS_ORIGIN` | Origin permitted by the Content Security Policy for the embedded IT Tools frame. |
 | `MONGO_URI` | MongoDB connection string and database name. |
 | `JWT_SECRET` | Signs authentication sessions. It must contain at least 32 characters. |
@@ -295,14 +295,14 @@ Available npm commands:
 
 ## 8. Deploy to an Ubuntu VPS
 
-These steps assume Ubuntu 24.04 or 22.04, a non-root deployment account, and the public domain `sec.adviio.com`.
+These steps assume Ubuntu 24.04 or 22.04, a non-root deployment account, and the public domain `team.adviio.com`.
 
 ### 8.1 Configure DNS
 
 Create an `A` record:
 
 ```text
-sec.adviio.com -> <VPS-public-IPv4-address>
+team.adviio.com -> <VPS-public-IPv4-address>
 ```
 
 Add an `AAAA` record only when IPv6 is correctly configured. Confirm DNS resolves to the VPS before requesting the TLS certificate.
@@ -359,7 +359,7 @@ Production must contain at least:
 ```dotenv
 NODE_ENV=production
 PORT=11000
-APP_ORIGIN=https://sec.adviio.com
+APP_ORIGIN=https://team.adviio.com
 IT_TOOLS_ORIGIN=https://it-tools.tech
 MONGO_URI=mongodb://127.0.0.1:27017/tscop_password_manager
 JWT_SECRET=<unique-production-secret>
@@ -405,11 +405,11 @@ curl http://127.0.0.1:11000/health
 
 ### 8.8 Configure Nginx
 
-The repository includes `deploy/nginx-sec.adviio.com.conf`.
+The repository includes `deploy/nginx-team.adviio.com.conf`.
 
 ```bash
-sudo cp deploy/nginx-sec.adviio.com.conf /etc/nginx/sites-available/sec.adviio.com
-sudo ln -s /etc/nginx/sites-available/sec.adviio.com /etc/nginx/sites-enabled/sec.adviio.com
+sudo cp deploy/nginx-team.adviio.com.conf /etc/nginx/sites-available/team.adviio.com
+sudo ln -s /etc/nginx/sites-available/team.adviio.com /etc/nginx/sites-enabled/team.adviio.com
 sudo nginx -t
 sudo systemctl enable --now nginx
 sudo systemctl reload nginx
@@ -423,15 +423,15 @@ Install Certbot using the officially recommended snap package:
 
 ```bash
 sudo snap install --classic certbot
-sudo /snap/bin/certbot --nginx -d sec.adviio.com
+sudo /snap/bin/certbot --nginx -d team.adviio.com
 sudo /snap/bin/certbot renew --dry-run
 ```
 
 After Certbot succeeds, verify:
 
 ```text
-https://sec.adviio.com/health
-https://sec.adviio.com
+https://team.adviio.com/health
+https://team.adviio.com
 ```
 
 Production authentication cookies are marked `Secure`, so HTTPS is required for normal production sign-in.
@@ -546,7 +546,7 @@ Confirm `npm run bootstrap` completed and that `BOOTSTRAP_ADMIN_EMAIL` was corre
 Set production `APP_ORIGIN` to the exact browser origin, including `https://` and without an unrelated port:
 
 ```dotenv
-APP_ORIGIN=https://sec.adviio.com
+APP_ORIGIN=https://team.adviio.com
 ```
 
 Then reload PM2 with `--update-env`.
